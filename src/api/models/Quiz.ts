@@ -10,6 +10,7 @@ import {
   } from 'typeorm'
   import { Lesson } from './Lesson'
   import { QuizQuestion } from './QuizQuestion'
+import { QuizAttempt } from './QuizAttempt'
   
 @Entity({ name: 'quizzes' })
 export class Quiz {
@@ -20,6 +21,9 @@ export class Quiz {
     @Column()
     title: string
   
+    @Column()
+    lesson_id: number
+
     @Column()
     time_allowed: number
   
@@ -46,5 +50,8 @@ export class Quiz {
   
     @OneToMany(() => QuizQuestion, (question) => question.quiz)
     questions: QuizQuestion[]
+
+    @OneToMany(() => QuizAttempt, attempt => attempt.quiz)
+    attempts: QuizAttempt[];
 }
   

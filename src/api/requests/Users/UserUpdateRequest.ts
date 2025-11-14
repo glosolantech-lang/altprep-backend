@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength, MaxLength, IsOptional } from 'class-validator';
+import { IsEmail, IsString, MinLength, MaxLength, IsOptional, IsNotEmpty } from 'class-validator';
 
 export class UserUpdateRequest {
   @MaxLength(20)
@@ -23,4 +23,15 @@ export class UserUpdateRequest {
   @IsString()
   @IsOptional()
   password: string;
+}
+
+export class UserUpdatePassword {
+
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  password_confirmation: string;
 }

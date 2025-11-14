@@ -6,6 +6,7 @@ import { ControllerBase } from '@base/infrastructure/abstracts/ControllerBase';
 import { OpenAPI } from 'routing-controllers-openapi';
 import { RequestQueryParser } from 'typeorm-simple-query-parser';
 import { LoggedUserInterface } from '@api/interfaces/users/LoggedUserInterface';
+import { UserUpdatePassword } from '@base/api/requests/Users/UserUpdateRequest';
 
 @Service()
 @OpenAPI({
@@ -24,5 +25,16 @@ export class UserController extends ControllerBase {
     const parseResourceOptions = new RequestQueryParser();
 
     return await this.userService.findOneById(user.id, resourceOptions);
+  }
+
+  @Put('/password')
+  public async updatePartnerUserPassword(@CurrentUser() user: LoggedUserInterface, @Body() body: UserUpdatePassword) {
+    if(body.password !== body.password_confirmation) throw new Error('Passwords do not match');
+    await this.userService.updateUserPassword(user.id, body.password)
+
+    return {
+      status: true,
+      message: 'user password updated successfully'
+    }
   }
 }
