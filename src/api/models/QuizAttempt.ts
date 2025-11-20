@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
 import { QuizQuestion } from "./QuizQuestion";
 import { User } from "./User";
+import { Quiz } from "./Quiz";
 
 @Entity("quiz_attempts")
 export class QuizAttempt {
@@ -9,6 +10,9 @@ export class QuizAttempt {
 
   @Column()
   question_id: number;
+  
+  @Column()
+  quiz_id: number;
   
   @Column("bigint")
   user_id: number;
@@ -27,6 +31,10 @@ export class QuizAttempt {
   @ManyToOne(() => QuizQuestion)
   @JoinColumn({ name: "question_id" })
   question: QuizQuestion;
+
+  @ManyToOne(() => Quiz, quiz => quiz.questions)
+  @JoinColumn({ name: "quiz_id" })
+  quiz: Quiz;
   
   @ManyToOne(() => User)
   @JoinColumn({ name: "user_id" })

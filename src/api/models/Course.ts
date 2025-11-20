@@ -36,6 +36,9 @@ export class Course {
     status: 'pending' | 'completed' | 'in_progress';
 
     @Column()
+    meta: string | null;
+
+    @Column()
     has_certificate: boolean;
 
     @Column()

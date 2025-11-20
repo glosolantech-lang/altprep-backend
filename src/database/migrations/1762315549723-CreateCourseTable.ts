@@ -53,6 +53,11 @@ export class CreateCourseTable1762315549723 implements MigrationInterface {
                 type: 'boolean',
                 default: false,
               },
+              { 
+                name: "meta", 
+                type: "text", 
+                isNullable: true 
+              },
               {
                 name: 'track_id',
                 type: 'bigint',

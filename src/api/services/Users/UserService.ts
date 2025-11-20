@@ -45,4 +45,13 @@ export class UserService {
 
     return user;
   }
+
+  public async updateUserPassword(id: number, newPassword: string) {
+    const user = await this.getRequestedUserOrFail(id);
+
+    user.password = newPassword;
+    await this.userRepository.save(user);
+
+    return user;
+  }
 }
