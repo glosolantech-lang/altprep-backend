@@ -6,3 +6,12 @@ export interface LoggedUserInterface {
   iat: number;
   exp: number;
 }
+export interface LoginResponseInterface {
+  user: {
+    id: number;
+    email: string;
+    role: string;
+  };
+  access_token?: string;
+  expires_in?: string;
+}

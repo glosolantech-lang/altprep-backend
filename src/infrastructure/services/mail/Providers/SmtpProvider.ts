@@ -2,6 +2,7 @@ import * as nodeMailer from 'nodemailer';
 import { mailConfig } from '@base/config/mail';
 import edge from 'edge.js'
 import { join } from 'path';
+import { BadRequestError } from 'routing-controllers';
 
 export enum EmailNotificationTemplateEnum {
   reset_password = 'password_reset',
@@ -69,6 +70,10 @@ export class SmtpProvider {
   public async send() {
     if (this.templateName) {
       this.htmlValue = await edge.render(this.templateName, this.templateData);
+    }
+
+    if (!this.toValue || !this.subjectValue) {
+      throw new BadRequestError('Email provider not initialized. Use setTo() or setSubject() first.');
     }
     const mailOptions = {
       from: this.fromValue,

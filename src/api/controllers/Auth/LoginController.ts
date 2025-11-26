@@ -4,6 +4,8 @@ import { LoginRequest } from '@api/requests/Auth/LoginRequest';
 import { LoginService } from '@api/services/Auth/LoginService';
 import { ControllerBase } from '@base/infrastructure/abstracts/ControllerBase';
 import { OpenAPI } from 'routing-controllers-openapi';
+import { NotificationService } from '@base/api/services/Notification/NotificationService';
+import { NotificationTypeEnum } from '@base/api/interfaces/notification/NotificationInterface';
 
 @Service()
 @OpenAPI({
@@ -11,7 +13,10 @@ import { OpenAPI } from 'routing-controllers-openapi';
 })
 @JsonController('/auth')
 export class LoginController extends ControllerBase {
-  public constructor(private loginService: LoginService) {
+  public constructor(
+    private loginService: LoginService,
+    private notificationService: NotificationService
+  ) {
     super();
   }
 
@@ -19,6 +24,20 @@ export class LoginController extends ControllerBase {
   public async login(@Body() user: LoginRequest) {
     try {
       const authorization = await this.loginService.login(user);
+      
+      const userId = authorization?.user?.id;
+      await this.notificationService
+      .setSubject('Login Successful')
+      .setMessage(
+        `You have logged into your account successfully.`
+      )
+      .setTo({userId})
+      .setCategory(NotificationTypeEnum.AUTH_LOGIN)
+      .setDetails({
+        userId,
+        time: new Date().toISOString(),
+      })
+      .sendToDB()
       return {
         status: true,
         message: 'Login successful',
