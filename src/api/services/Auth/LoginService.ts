@@ -5,6 +5,7 @@ import { InvalidCredentials } from '@api/exceptions/Auth/InvalidCredentials';
 import { AuthService } from '@base/infrastructure/services/auth/AuthService';
 import { LoginRequest } from '@base/api/requests/Auth/LoginRequest';
 import { HashService } from '@base/infrastructure/services/hash/HashService';
+import { LoginResponseInterface } from '@base/api/interfaces/users/LoggedUserInterface';
 
 @Service()
 export class LoginService {
@@ -12,7 +13,7 @@ export class LoginService {
     //
   }
 
-  public async login(data: LoginRequest) {
+  public async login(data: LoginRequest): Promise<LoginResponseInterface> {
     let user = await this.userRepository.findOne({
       where: { email: data.email },
       relations: ['role'],

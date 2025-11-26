@@ -1,6 +1,7 @@
 import { authConfig } from '@base/config/auth';
 import { Service } from 'typedi';
 import { JWTProvider } from './Providers/JWTProvider';
+import { LoginResponseInterface } from '@base/api/interfaces/users/LoggedUserInterface';
 
 @Service()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
     return this;
   }
 
-  public sign(payload: object, dataReturn: object): object {
+  public sign(payload: object, dataReturn: LoginResponseInterface): LoginResponseInterface {
     return this.provider.sign(payload, dataReturn);
   }
 }
