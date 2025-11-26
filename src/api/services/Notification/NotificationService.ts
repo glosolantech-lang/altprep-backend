@@ -7,6 +7,9 @@ import { parseDateRange } from '@base/utils/date';
 import { EmailNotificationTemplateEnum, SmtpProvider } from '@base/infrastructure/services/mail/Providers/SmtpProvider';
 import { mailConfig } from '@base/config/mail';
 import { NotificationFiltersQuery } from '@base/api/requests/Notification/NotificationRequest';
+import { NotificationPreference } from '@base/api/models/NotificationPreference';
+import { NotificationPreferenceService } from './NotificationPreferenceService';
+import { NotificationTypeEnum } from '@base/api/interfaces/notification/NotificationInterface';
 
 @Service()
 export class NotificationService {
@@ -17,7 +20,10 @@ export class NotificationService {
 
   constructor(
     @InjectRepository(Notification)
-    private readonly notificationRepo: Repository<Notification>
+    private readonly notificationRepo: Repository<Notification>,
+
+    private preferenceService: NotificationPreferenceService,
+
   ) {}
 
   public setFrom(value: string) {
@@ -49,7 +55,7 @@ export class NotificationService {
     return this;
   }
 
-  public setCategory(category: string) {
+  public setCategory(category: NotificationTypeEnum) {
     this.dbPayload.category = category;
     return this;
   }
@@ -69,8 +75,6 @@ export class NotificationService {
     if (!this.emailProvider) {
       throw new BadRequestError('Email provider not initialized. Use setTo() or setSubject() first.');
     }
-    const { userId, title, category } = this.dbPayload;
-
     this.emailProvider.from(this.fromValue);
     return await this.emailProvider.send();
   }
@@ -81,6 +85,9 @@ export class NotificationService {
     if (!userId || !title || !category) {
       throw new BadRequestError('userId, title and category are required');
     }
+
+    const allowed = await this.preferenceService.isEnabled(userId, category);
+    if (!allowed) return null;
 
     const entity = this.notificationRepo.create({
       user_id: userId,

@@ -30,6 +30,8 @@ export class Notification {
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
 
+      /* --------------------  RELATIONSHIPS  -------------------- */
+
   @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'user_id' })
   user?: User;

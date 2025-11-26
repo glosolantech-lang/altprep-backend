@@ -32,7 +32,7 @@ export class LoginController extends ControllerBase {
         `You have logged into your account successfully.`
       )
       .setTo({userId})
-      .setCategory(NotificationTypeEnum.AUTH)
+      .setCategory(NotificationTypeEnum.AUTH_LOGIN)
       .setDetails({
         userId,
         time: new Date().toISOString(),

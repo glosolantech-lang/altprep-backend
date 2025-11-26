@@ -1,5 +1,5 @@
 import { NotificationTypeEnum } from '@base/api/interfaces/notification/NotificationInterface';
-import { IsOptional, IsString, IsIn, IsEnum, IsInt, Min, MaxLength, IsArray } from 'class-validator';
+import { IsOptional, IsString, IsIn, IsEnum, IsInt, Min, MaxLength, IsArray, IsBoolean } from 'class-validator';
 
 export class NotificationFiltersQuery {
   @IsOptional()
@@ -39,4 +39,12 @@ export class NotificationRequestBody {
   @IsOptional()
   @IsArray()
   ids?: number[]; 
+}
+
+export class UpdatePreferenceRequest {
+  @IsEnum(NotificationTypeEnum)
+  type: NotificationTypeEnum;
+
+  @IsBoolean()
+  enabled: boolean;
 }
