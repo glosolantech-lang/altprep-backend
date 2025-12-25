@@ -22,7 +22,8 @@ export default class EventSeeder implements Seeder {
         location: 'Lagos, Nigeria',
         organization: 'TechHub Africa',
         category: EventCategoryEnum.EVENTS,
-        time: '2025-12-10 10:00:00',
+        start_time: '2025-12-10 10:00:00',
+        event_date: "2026-01-15",
         meta: JSON.stringify({
           speakers: [
             { name: 'Dr. Ada Onyema', topic: 'Neural Networks & Deep Learning' },
@@ -46,7 +47,8 @@ export default class EventSeeder implements Seeder {
         location: 'Online',
         organization: 'Innovate DevLabs',
         category: EventCategoryEnum.INTERNSHIPS,
-        time: '2025-11-28 14:00:00',
+        start_time: '2025-11-28 14:00:00',
+        event_date: "2026-01-15",
       },
       {
         title: 'Global Hackathon Challenge 2025',
@@ -65,7 +67,8 @@ export default class EventSeeder implements Seeder {
         location: 'Abuja, Nigeria',
         organization: 'CodeFest International',
         category: EventCategoryEnum.COMPETITIONS,
-        time: '2026-01-15 09:00:00',
+        start_time: '2026-01-15 09:00:00',
+        event_date: "2026-01-15",
         meta: JSON.stringify({
           speakers: [
             { name: 'Elena Garcia', topic: 'Building for Scale' },

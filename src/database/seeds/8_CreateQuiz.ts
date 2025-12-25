@@ -8,7 +8,7 @@ export default class QuizSeeder implements Seeder {
     const lessons = await connection
     .getRepository(Lesson)
     .createQueryBuilder("lesson")
-    .orderBy("RAND()")  
+    .orderBy("RANDOM()")  
     .limit(5)
     .getMany();
     
