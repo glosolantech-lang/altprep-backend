@@ -23,20 +23,22 @@ export default class CreateUsers implements Seeder {
       return 
     }
 
-    await connection.getRepository(User).save({
-      email: adminEmail,
-      password: 'admin123', 
-      first_name: 'System',
-      last_name: 'Admin',
-      role: adminRole,
-    });
+    const adminUser = new User();
+    adminUser.email = adminEmail;
+    adminUser.password = 'admin123';
+    adminUser.first_name = 'System';
+    adminUser.last_name = 'Admin';
+    adminUser.role = adminRole;
 
-    await connection.getRepository(User).save({
-      email: 'client@example.com',
-      password: 'client123', // hashed from model
-      first_name: 'Client',
-      last_name: 'User',
-      role: clientRole,
-    });
+    await userRepo.save(adminUser);
+
+    const clientUser = new User();
+    clientUser.email = 'client@example.com';
+    clientUser.password = 'client123';
+    clientUser.first_name = 'Client';
+    clientUser.last_name = 'User';
+    clientUser.role = clientRole;
+
+    await userRepo.save(clientUser);
   }
 }
