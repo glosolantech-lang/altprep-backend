@@ -77,6 +77,7 @@
     "seed:config": "ts-node -r ./fix-module-alias.js ./node_modules/typeorm-seeding/dist/cli.js config",
     "db:seed": "ts-node -r ./fix-module-alias.js ./node_modules/typeorm-seeding/dist/cli.js seed",
     "db:seed:production": "NODE_ENV=production ts-node -r ./fix-module-alias.js ./node_modules/typeorm-seeding/dist/cli.js seed",
+    "db:reset": "psql -U postgres -d altprep -c \"DROP SCHEMA public CASCADE; CREATE SCHEMA public;\"",
     "seed:course": "ts-node -r ./fix-module-alias.js ./node_modules/typeorm-seeding/dist/cli.js seed --seed CreateCourses",
     "seed:lesson": "ts-node -r ./fix-module-alias.js ./node_modules/typeorm-seeding/dist/cli.js seed --seed LessonSeeder",
     "seed:material": "ts-node -r ./fix-module-alias.js ./node_modules/typeorm-seeding/dist/cli.js seed --seed LessonMaterialSeeder",

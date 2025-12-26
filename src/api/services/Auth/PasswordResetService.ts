@@ -7,6 +7,7 @@ import { addMinutes } from 'date-fns';
 import { UserNotFound } from '@base/api/exceptions/Auth/InvalidCredentials';
 import { randomIntegers } from '@base/utils/string';
 import { authConfig } from '@base/config/auth';
+import { HashService } from '@base/infrastructure/services/hash/HashService';
 import { EmailNotificationTemplateEnum, SmtpProvider } from '@base/infrastructure/services/mail/Providers/SmtpProvider';
 
 @Service()
@@ -48,7 +49,7 @@ export class PasswordResetService {
     const user = await this.userRepo.findOne({ where: { email: reset.email } });
     if (!user) throw new UserNotFound();
 
-    user.password = newPassword;
+    user.password = await new HashService().make(newPassword) ;
     await this.userRepo.save(user);
 
     // remove token so it cannot be reused

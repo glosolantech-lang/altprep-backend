@@ -3,6 +3,7 @@ import { UserRepository } from '@api/repositories/Users/UserRepository';
 import { UserNotFoundException } from '@api/exceptions/Users/UserNotFoundException';
 import { EventDispatcher, EventDispatcherInterface } from '@base/decorators/EventDispatcher';
 import { InjectRepository } from 'typeorm-typedi-extensions';
+import { HashService } from '@base/infrastructure/services/hash/HashService';
 
 @Service()
 export class UserService {
@@ -49,7 +50,7 @@ export class UserService {
   public async updateUserPassword(id: number, newPassword: string) {
     const user = await this.getRequestedUserOrFail(id);
 
-    user.password = newPassword;
+    user.password = await new HashService().make(newPassword);
     await this.userRepository.save(user);
 
     return user;

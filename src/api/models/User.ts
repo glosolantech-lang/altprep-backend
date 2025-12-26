@@ -74,7 +74,6 @@ export class User extends EntityBase {
   }
 
   @BeforeInsert()
-  @BeforeUpdate()
   async setPassword() {
     if (this.password) this.password = await new HashService().make(this.password);
   }
